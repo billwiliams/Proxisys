@@ -4,10 +4,15 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 
+import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by NDIRANGU on 12/23/2014.
@@ -26,6 +31,31 @@ public class ProxiSys extends Application {
     public void onCreate()
     {
         super.onCreate();
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        beaconManager = new BeaconManager(this);
+        /*
+        *Default values are 5s of scanning and 25s of waiting time to save CPU cycles.
+        *In order for this project to be more responsive and immediate we lower down those values.
+        *
+        * */
+        beaconManager.setBackgroundScanPeriod(TimeUnit.SECONDS.toMillis(1), 2);
+        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
+            @Override
+            public void onEnteredRegion(final Region region, final List<Beacon> beacons) {
+
+            postNotification("Welcome to Proxisys");
+
+
+            }
+
+            @Override
+            public void onExitedRegion (Region region){
+
+            postNotification(" Thanks for choosing Proxisys with us ");
+            }
+}
+
+        );
 
     }
 
