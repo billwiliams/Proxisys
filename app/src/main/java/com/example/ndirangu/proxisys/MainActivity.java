@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 
 public class MainActivity extends Activity {
 
@@ -23,6 +26,10 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        Parse.initialize(this, "Z3dh3hNprxhtb2lSsa8IzjW12b2qKbhks0Y2wRRD", "WALJUx6cYTKK8uBPt5uS3uhC5iOYJ1QOXZQMerTU");
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
     }
 
 
